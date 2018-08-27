@@ -17,6 +17,7 @@ module.exports = ({ types: t }) => {
       MemberExpression(path, _) {
         const node = path.node;
         if (node.checked) return;
+        if (node.object.name === "console") return;
 
         const computed = node.property.type !== "Identifier";
         replaceWithChecked(
@@ -28,6 +29,12 @@ module.exports = ({ types: t }) => {
       CallExpression(path, _) {
         const node = path.node;
         if (node.checked) return;
+        if (
+          node.callee.object &&
+          node.callee.object.name === "console" &&
+          ["log", "error", "warn"].includes(node.callee.property.name)
+        )
+          return;
 
         replaceWithChecked(
           path,

@@ -41,6 +41,13 @@ it("replaces member expressions with computed property", () => {
   expect(transform(fixture).trim()).toBe(expected.trim());
 });
 
+it("does not touch console", () => {
+  const fixture = `console.log("foo")`;
+  const expected = `console.log("foo");`;
+
+  expect(transform(fixture).trim()).toBe(expected.trim());
+});
+
 it("combines with babel optional parsing", () => {
   const transform = fixture =>
     babel.transform(fixture, {

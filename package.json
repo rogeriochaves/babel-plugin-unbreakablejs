@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test:examples": "babel examples/index.js > /tmp/example.js && node /tmp/example.js"
   },
   "author": "",
   "license": "MIT",
