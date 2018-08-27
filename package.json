@@ -9,10 +9,12 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "babel-core": "^6.26.3"
+    "@babel/plugin-proposal-optional-chaining": "^7.0.0-rc.4",
+    "babel-core": "^7.0.0-0",
+    "@babel/core": "^7.0.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
+    "@babel/cli": "^7.0.0-0",
     "jest": "^23.5.0"
   }
 }

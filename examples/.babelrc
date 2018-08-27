@@ -1,0 +1,6 @@
+{
+  "plugins": [
+    "../index.js",
+    "@babel/plugin-proposal-optional-chaining"
+  ]
+}

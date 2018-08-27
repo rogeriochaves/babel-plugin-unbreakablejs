@@ -6,20 +6,32 @@
 
 const babel = require("babel-core");
 
+const replaceWithChecked = (path, newNode) => {
+  newNode.checked = true;
+  path.replaceWith(newNode);
+};
+
 module.exports = ({ types: t }) => {
   return {
     visitor: {
-      MemberExpression(path, state) {
+      MemberExpression(path, _) {
         const node = path.node;
-        const object = path.node.object;
+        if (node.checked) return;
 
-        const notUndefined = t.binaryExpression(
-          "!==",
-          t.unaryExpression("typeof", t.identifier(object.name), true),
-          t.stringLiteral("undefined")
+        replaceWithChecked(
+          path,
+          t.optionalMemberExpression(node.object, node.property, false, true)
         );
+      },
 
-        path.parent.expression = t.logicalExpression("&&", notUndefined, node);
+      CallExpression(path, _) {
+        const node = path.node;
+        if (node.checked) return;
+
+        replaceWithChecked(
+          path,
+          t.optionalCallExpression(node.callee, node.arguments, true)
+        );
       }
     }
   };
