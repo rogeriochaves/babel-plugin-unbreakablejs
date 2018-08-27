@@ -34,6 +34,13 @@ it("replaces member and call expression with optional versions", () => {
   expect(transform(fixture).trim()).toBe(expected.trim());
 });
 
+it("replaces member expressions with computed property", () => {
+  const fixture = `foo[1 + 1]`;
+  const expected = `foo?.[1 + 1];`;
+
+  expect(transform(fixture).trim()).toBe(expected.trim());
+});
+
 it("combines with babel optional parsing", () => {
   const transform = fixture =>
     babel.transform(fixture, {

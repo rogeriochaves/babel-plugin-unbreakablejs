@@ -18,9 +18,10 @@ module.exports = ({ types: t }) => {
         const node = path.node;
         if (node.checked) return;
 
+        const computed = node.property.type !== "Identifier";
         replaceWithChecked(
           path,
-          t.optionalMemberExpression(node.object, node.property, false, true)
+          t.optionalMemberExpression(node.object, node.property, computed, true)
         );
       },
 
