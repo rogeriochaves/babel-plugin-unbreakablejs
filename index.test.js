@@ -48,6 +48,13 @@ it("does not touch console", () => {
   expect(transform(fixture).trim()).toBe(expected.trim());
 });
 
+it("protects assign", () => {
+  const fixture = `qux.foo.value = 5`;
+  const expected = `qux?.foo ? qux.foo.value = 5 : undefined;`;
+
+  expect(transform(fixture).trim()).toBe(expected.trim());
+});
+
 it("combines with babel optional parsing", () => {
   const transform = fixture =>
     babel.transform(fixture, {

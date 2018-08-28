@@ -5,10 +5,24 @@
  */
 
 const babel = require("babel-core");
+const cloneDeep = require("clone-deep");
 
 const replaceWithChecked = (path, newNode) => {
   newNode.checked = true;
   path.replaceWith(newNode);
+};
+
+const checkInsideLeftAsignment = currentPath => {
+  while (currentPath && currentPath.parentPath) {
+    if (
+      currentPath.parentPath.node.type === "AssignmentExpression" &&
+      currentPath.parentPath.node.left === currentPath.node
+    ) {
+      return currentPath.parentPath;
+    }
+    currentPath = currentPath.parentPath;
+  }
+  return false;
 };
 
 module.exports = ({ types: t }) => {
@@ -18,6 +32,27 @@ module.exports = ({ types: t }) => {
         const node = path.node;
         if (node.checked) return;
         if (node.object.name === "console") return;
+
+        var insideAsignmentLeft = checkInsideLeftAsignment(path);
+
+        if (insideAsignmentLeft) {
+          node.checked = true;
+          const condition = cloneDeep(insideAsignmentLeft.node.left.object);
+          const assignment = cloneDeep(insideAsignmentLeft.node);
+          if (assignment.checked) return;
+          assignment.checked = true;
+
+          replaceWithChecked(
+            insideAsignmentLeft,
+            t.conditionalExpression(
+              condition,
+              assignment,
+              t.identifier("undefined")
+            )
+          );
+          t.conditionalExpression;
+          return;
+        }
 
         const computed = node.property.type !== "Identifier";
         replaceWithChecked(

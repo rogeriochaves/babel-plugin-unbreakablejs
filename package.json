@@ -10,9 +10,10 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@babel/core": "^7.0.0",
     "@babel/plugin-proposal-optional-chaining": "^7.0.0-rc.4",
     "babel-core": "^7.0.0-0",
-    "@babel/core": "^7.0.0"
+    "clone-deep": "^4.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-0",
