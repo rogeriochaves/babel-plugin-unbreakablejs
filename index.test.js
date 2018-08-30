@@ -6,21 +6,21 @@ it("replaces member calls with optional member calls", () => {
   const fixture = `foo.bar`;
   const expected = `foo?.bar;`;
 
-  expect(transform(fixture).trim()).toBe(expected.trim());
+  expect(transform(fixture)).toBe(expected);
 });
 
 it("replaces member calls with optional member calls inside variable asign", () => {
   const fixture = `var bar = foo.bar`;
   const expected = `var bar = foo?.bar;`;
 
-  expect(transform(fixture).trim()).toBe(expected.trim());
+  expect(transform(fixture)).toBe(expected);
 });
 
 it("replaces call expressions with optional call expressions", () => {
   const fixture = `bar()`;
   const expected = `bar?.();`;
 
-  expect(transform(fixture).trim()).toBe(expected.trim());
+  expect(transform(fixture)).toBe(expected);
 });
 
 it("replaces memeber call expressions with optional call expressions", () => {
@@ -40,28 +40,35 @@ it("replaces member and call expression with optional versions", () => {
   const fixture = `foo.bar(baz.qux)`;
   const expected = `foo?.bar?.(baz?.qux);`;
 
-  expect(transform(fixture).trim()).toBe(expected.trim());
+  expect(transform(fixture)).toBe(expected);
 });
 
 it("replaces member expressions with computed property", () => {
   const fixture = `foo[1 + 1]`;
   const expected = `foo?.[1 + 1];`;
 
-  expect(transform(fixture).trim()).toBe(expected.trim());
+  expect(transform(fixture)).toBe(expected);
 });
 
 it("does not touch console", () => {
   const fixture = `console.log("foo")`;
   const expected = `console.log("foo");`;
 
-  expect(transform(fixture).trim()).toBe(expected.trim());
+  expect(transform(fixture)).toBe(expected);
 });
 
 it("protects assign", () => {
   const fixture = `qux.foo.value = 5`;
   const expected = `qux?.foo ? qux.foo.value = 5 : undefined;`;
 
-  expect(transform(fixture).trim()).toBe(expected.trim());
+  expect(transform(fixture)).toBe(expected);
+});
+
+it("replaces throws with console errors", () => {
+  const fixture = `throw "some error"`;
+  const expected = `console.error("some error");`;
+
+  expect(transform(fixture)).toBe(expected);
 });
 
 it("combines with babel optional parsing", () => {

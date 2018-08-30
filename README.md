@@ -94,6 +94,20 @@ Will you get invalid state? Well, yes. Will you get lots of `undefined` and `NaN
    foo?.bar ? (foo.bar.baz = true) : undefined;
    ```
 
+1. Throws are just console.errors
+
+   Before:
+
+   ```javascript
+   throw "some error";
+   ```
+
+   After:
+
+   ```javascript
+   console.error("some error");
+   ```
+
 ## Bug Reports
 
 Did your code break in any way after using unbreakable? That's a bug! Unbreakable should strive to be absolutely unbreakable! Please [open an issue](https://github.com/rogeriochaves/unbreakablejs/issues).

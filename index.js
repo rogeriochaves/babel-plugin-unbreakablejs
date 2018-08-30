@@ -80,6 +80,17 @@ module.exports = ({ types: t }) => {
           path,
           t.optionalCallExpression(node.callee, node.arguments, true)
         );
+      },
+
+      ThrowStatement(path, _) {
+        const node = path.node;
+
+        path.replaceWith(
+          t.callExpression(
+            t.memberExpression(t.identifier("console"), t.identifier("error")),
+            [node.argument]
+          )
+        );
       }
     }
   };
