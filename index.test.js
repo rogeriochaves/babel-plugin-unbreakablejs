@@ -64,7 +64,7 @@ it("protects assign", () => {
   expect(transform(fixture).trim()).toBe(expected.trim());
 });
 
-it.skip("combines with babel optional parsing", () => {
+it("combines with babel optional parsing", () => {
   const transform = fixture =>
     babel.transform(fixture, {
       plugins: [unbreakablejs, "@babel/plugin-proposal-optional-chaining"]
@@ -78,13 +78,13 @@ foo.baz();
 var _foo, _foo$baz, _foo2, _foo3;
 
 (_foo = foo) === null || _foo === void 0 ? void 0 : _foo.bar;
-(_foo$baz = (_foo3 = _foo2 = foo) === null || _foo3 === void 0 ? void 0 : _foo3.baz) === null || _foo$baz === void 0 ? void 0 : (_foo$baz === null || _foo$baz === void 0 ? void 0 : _foo$baz.call)(_foo2);
+(_foo$baz = (_foo3 = _foo2 = foo) === null || _foo3 === void 0 ? void 0 : _foo3.baz) === null || _foo$baz === void 0 ? void 0 : _foo$baz.call(_foo2);
 `;
 
   expect(transform(fixture).trim()).toBe(expected.trim());
 });
 
-it.skip("code transfomed with unbreakable is the same as manually transformed and parsed", () => {
+it("code transfomed with unbreakable is the same as manually transformed and parsed", () => {
   const transformWithUnbreakable = fixture =>
     removeIrrelevantAstData(
       babel.transform(fixture, {

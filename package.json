@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "test:examples": "babel examples/index.js > /tmp/example.js && node /tmp/example.js"
+    "test:examples": "mkdir examples/generated; npm run test:examples:simple && npm run test:examples:vue",
+    "test:examples:simple": "babel examples/simple.js > examples/generated/simple.js && node examples/generated/simple.js",
+    "test:examples:vue": "babel examples/vue-todomvc.js > examples/generated/vue-todomvc.js && open examples/vue-todomvc.html"
   },
   "author": "",
   "license": "MIT",
