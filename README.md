@@ -1,10 +1,10 @@
-# unbreakable.js <sup>beta</sup>
+# unbreakable.js <small><sup>beta</sup></small>
 
 ## `undefined = function () {}`
 
 What if undefined was actually a function? Have you thought about that? You'd get rid of all those annoying `undefined is not a function` errors for ever. And that's exactly what unbreakable.js is about!
 
-Nowadays there are projects like [Elm](http://elm-lang.org/) that gives you zero runtime exceptions by enforcing very strict types, also [TypeScript](https://www.typescriptlang.org/), [Flow](https://flow.org/) and [PureScript](http://www.purescript.org/) that helps you go on that direction.
+Nowadays there are projects like [Elm](http://elm-lang.org/) which gives you zero runtime exceptions by enforcing very strict types, also [TypeScript](https://www.typescriptlang.org/), [Flow](https://flow.org/) and [PureScript](http://www.purescript.org/) that push you in this direction.
 
 But what if we went through the opposite way? Not break ever, not because we have a very strict language, but because we have a very loose one, that accepts everything? If you watched the [Wat](https://www.destroyallsoftware.com/talks/wat) talk you probably know that JavaScript is pretty much like this already.
 
@@ -111,3 +111,7 @@ Will you get invalid state? Well, yes. Will you get lots of `undefined` and `NaN
 ## Bug Reports
 
 Did your code break in any way after using unbreakable? That's a bug! Unbreakable should strive to be absolutely unbreakable! Please [open an issue](https://github.com/rogeriochaves/unbreakablejs/issues).
+
+## Disclaimer
+
+Please don't use this in production, it's just a crazy idea and also in beta
