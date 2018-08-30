@@ -6,9 +6,9 @@ What if undefined was actually a function? Have you thought about that? You'd ge
 
 Nowadays there are projects like [Elm](http://elm-lang.org/) which gives you zero runtime exceptions by enforcing very strict types, also [TypeScript](https://www.typescriptlang.org/), [Flow](https://flow.org/) and [PureScript](http://www.purescript.org/) that push you in this direction.
 
-But what if we went through the opposite way? Not break ever, not because we have a very strict language, but because we have a very loose one, that accepts everything? If you watched the [Wat](https://www.destroyallsoftware.com/talks/wat) talk you probably know that JavaScript is pretty much like this already.
+But what if we went through the opposite way? Never break the code, not because we have a very strict language, but because we have a very loose one, that just accepts everything. If you watched the [Wat](https://www.destroyallsoftware.com/talks/wat) talk you probably know that JavaScript is pretty much like that already.
 
-In JS you can do `[] - {}` no problem, and it gives `NaN` which is actually not a lie! Most other languages would complain when you do math operations with things that aren't number. But what if we took that to the next level?
+In JS you can do `[] - {}` no problem, and it gives `NaN` which is actually not a lie! Most other languages would complain when you do math operations with things that aren't numbers. But what if we took that to the next level?
 
 ```javascript
 var analytics = {};
@@ -17,7 +17,7 @@ analytics.track(); // undefined is not a function
 veryImportantTask();
 ```
 
-The code above will break, and the `veryImportantTask` will never get executed just because a useless tracking failed.
+The code above will break, and the `veryImportantTask` will never get executed just because some useless tracking failed.
 
 Errors like those are the top cause of JavaScript errors [according to the Rollbar report](https://rollbar.com/blog/top-10-javascript-errors/). What unbreakable.js does then, is replacing all expressions in your code like the one above with the new [optional chaining](https://github.com/tc39/proposal-optional-chaining).
 
@@ -30,7 +30,7 @@ veryImportantTask?.();
 
 Unbreakable.js can prevent 7 out of 10 top errors from the [top 10 javascript errors](https://rollbar.com/blog/top-10-javascript-errors/) automatically. Check out the `examples/simple.js` file to see the example cases.
 
-Will you get invalid state? Well, yes. Will you get lots of `undefined` and `NaN` in your screens for the user? Probably, but hey, at least your code will run for sure!
+Will you get invalid state and business logic? Probably. Will you get lots of `undefined` and `NaN` on the screen for the user to see? Well, yes, but hey, at least your code will run for sure!
 
 ## How to use
 
