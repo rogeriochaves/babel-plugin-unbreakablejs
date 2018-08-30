@@ -1,10 +1,6 @@
 const unbreakablejs = require("./index.js");
 const babel = require("babel-core");
-
-const transform = fixture =>
-  babel.transform(fixture, {
-    plugins: [unbreakablejs]
-  }).code;
+const traverse = require("babel-traverse");
 
 it("replaces member calls with optional member calls", () => {
   const fixture = `foo.bar`;
@@ -23,6 +19,19 @@ it("replaces member calls with optional member calls inside variable asign", () 
 it("replaces call expressions with optional call expressions", () => {
   const fixture = `bar()`;
   const expected = `bar?.();`;
+
+  expect(transform(fixture).trim()).toBe(expected.trim());
+});
+
+it("replaces memeber call expressions with optional call expressions", () => {
+  const fixture = `
+var num = 1;
+num.toString();
+  `;
+  const expected = `
+var num = 1;
+num?.toString?.();
+  `;
 
   expect(transform(fixture).trim()).toBe(expected.trim());
 });
@@ -55,7 +64,7 @@ it("protects assign", () => {
   expect(transform(fixture).trim()).toBe(expected.trim());
 });
 
-it("combines with babel optional parsing", () => {
+it.skip("combines with babel optional parsing", () => {
   const transform = fixture =>
     babel.transform(fixture, {
       plugins: [unbreakablejs, "@babel/plugin-proposal-optional-chaining"]
@@ -74,3 +83,81 @@ var _foo, _foo$baz, _foo2, _foo3;
 
   expect(transform(fixture).trim()).toBe(expected.trim());
 });
+
+it.skip("code transfomed with unbreakable is the same as manually transformed and parsed", () => {
+  const transformWithUnbreakable = fixture =>
+    removeIrrelevantAstData(
+      babel.transform(fixture, {
+        plugins: [unbreakablejs],
+        ast: true
+      }).ast
+    );
+  const parseWithoutUnbreakable = fixture =>
+    removeIrrelevantAstData(
+      babel.parse(fixture, {
+        plugins: ["@babel/plugin-proposal-optional-chaining"],
+        ast: true
+      })
+    );
+
+  expect(transformWithUnbreakable(`foo.bar()`)).toEqual(
+    parseWithoutUnbreakable(`foo?.bar?.()`)
+  );
+});
+
+it.skip("has the same output with optional chaining separate and together", () => {
+  const transformUnbreakableWithOptChaining = fixture =>
+    babel.transform(fixture, {
+      plugins: [unbreakablejs, "@babel/plugin-proposal-optional-chaining"]
+    }).code;
+  const transformOptChaining = fixture =>
+    babel.transform(fixture, {
+      plugins: ["@babel/plugin-proposal-optional-chaining"]
+    }).code;
+
+  const fixture = `foo.bar()`;
+
+  expect(transformUnbreakableWithOptChaining(fixture).trim()).toBe(
+    transformOptChaining(transform(fixture)).trim()
+  );
+});
+
+it("is indepotent", () => {
+  const fixture = `foo?.bar?.();`;
+  const transformOptChaining = fixture =>
+    babel.transform(fixture, {
+      plugins: ["@babel/plugin-proposal-optional-chaining"]
+    }).code;
+
+  expect(transform(transformOptChaining(fixture)).trim()).toBe(
+    transformOptChaining(fixture.trim())
+  );
+});
+
+const transform = fixture =>
+  babel.transform(fixture, {
+    plugins: [unbreakablejs]
+  }).code;
+
+const removeIrrelevantAstData = obj => {
+  const locationKeywords = [
+    "end",
+    "loc",
+    "column",
+    "start",
+    "innerComments",
+    "leadingComments",
+    "trailingComments",
+    "checked",
+    "__clone",
+    "extra"
+  ];
+  for (const key in obj) {
+    if (locationKeywords.includes(key)) {
+      delete obj[key];
+    } else if (typeof obj[key] === "object") {
+      removeIrrelevantAstData(obj[key]);
+    }
+  }
+  return obj;
+};

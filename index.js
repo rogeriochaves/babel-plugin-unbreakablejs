@@ -55,6 +55,9 @@ module.exports = ({ types: t }) => {
         }
 
         const computed = node.property.type !== "Identifier";
+        if (node.object && node.object.name && node.object.name.match(/^_/))
+          return;
+
         replaceWithChecked(
           path,
           t.optionalMemberExpression(node.object, node.property, computed, true)
@@ -69,6 +72,8 @@ module.exports = ({ types: t }) => {
           node.callee.object.name === "console" &&
           ["log", "error", "warn"].includes(node.callee.property.name)
         )
+          return;
+        if (node.callee.property && node.callee.property.name === "call")
           return;
 
         replaceWithChecked(

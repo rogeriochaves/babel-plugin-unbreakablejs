@@ -5,15 +5,13 @@
 var foo;
 foo.bar;
 
-/* Broken
-  class Quiz {
-    render() {
-      return this.state.items.map(item => `<li key=${item.id}>${item.name}</li>`);
-    }
+class Quiz {
+  render() {
+    return this.state.items.map(item => `<li key=${item.id}>${item.name}</li>`);
   }
-  var quiz = new Quiz();
-  console.log(quiz.render());
-*/
+}
+var quiz = new Quiz();
+console.log(quiz.render());
 
 // Case 2:
 
