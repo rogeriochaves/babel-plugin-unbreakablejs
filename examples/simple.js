@@ -27,6 +27,8 @@ if (testArray.length === 0) {
   console.log("Array is empty");
 }
 
+// Case 4: unfixable
+
 // Case 5:
 
 this.isAwesome();
