@@ -37,7 +37,7 @@ Will you get invalid state and business logic? Probably. Will you get lots of `u
 1. Install the dependencies
 
    ```bash
-   npm install git+https://github.com/rogeriochaves/unbreakablejs.git @babel/plugin-proposal-optional-chaining
+   npm install git+https://github.com/rogeriochaves/babel-plugin-unbreakablejs.git @babel/plugin-proposal-optional-chaining
    ```
 
 1. Add the plugins to your .babelrc file (don't know how to use babel? [check it out](https://babeljs.io/setup))
