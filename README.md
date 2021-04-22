@@ -1,4 +1,4 @@
-# unbreakable.js <small><sup>beta</sup></small>
+# unbreakable.js babel plugin
 
 ## `undefined = function () {}`
 
